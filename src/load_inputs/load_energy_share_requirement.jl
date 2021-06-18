@@ -26,8 +26,8 @@ function load_energy_share_requirement(setup::Dict, path::AbstractString, sep::A
 
 	# Ensure float format values:
 	ESR = count(s -> startswith(String(s), "ESR"), names(inputs_ESR["dfESR"]))
-	first_col = findall(s -> s == Symbol("ESR_1"), names(inputs_ESR["dfESR"]))[1]
-	last_col = findall(s -> s == Symbol("ESR_$ESR"), names(inputs_ESR["dfESR"]))[1]
+	first_col = findall(s -> s =="ESR_1", names(inputs_ESR["dfESR"]))[1]
+	last_col = findall(s -> s =="ESR_$ESR", names(inputs_ESR["dfESR"]))[1]
 
 	inputs_ESR["dfESR"] = Matrix(inputs_ESR["dfESR"][:,first_col:last_col])
 	inputs_ESR["nESR"] = ESR
