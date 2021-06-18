@@ -120,6 +120,7 @@ include("model/generate_model.jl")
 include("model/solve_model.jl")
 
 include("write_outputs/dftranspose.jl")
+include("write_outputs/convert_to_DataFrame.jl")
 include("write_outputs/write_capacity.jl")
 include("write_outputs/write_charge.jl")
 include("write_outputs/write_charging_cost.jl")

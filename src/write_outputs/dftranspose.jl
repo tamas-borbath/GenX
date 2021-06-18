@@ -41,8 +41,3 @@ function dftranspose(df::DataFrame, withhead::Bool)
 		return DataFrame([[names(df)]; collect.(eachrow(df))], [:Row; Symbol.("x",axes(df, 1))])
 	end
 end # End dftranpose()
-
-
-function convert_to_dataframe(x)
-	return DataFrame(x, :auto)
-end
