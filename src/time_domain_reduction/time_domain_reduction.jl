@@ -204,11 +204,11 @@ K-Medoids:
 """
 function cluster(ClusterMethod, ClusteringInputDF, NClusters, nIters, v=false)
     if ClusterMethod == "kmeans"
-        DistMatrix = pairwise(Euclidean(), convert(Matrix, ClusteringInputDF), dims=2)
-        R = kmeans(convert(Matrix, ClusteringInputDF), NClusters, init=:kmcen)
+        DistMatrix = pairwise(Euclidean(), Matrix(ClusteringInputDF), dims=2)
+        R = kmeans(Matrix(ClusteringInputDF), NClusters, init=:kmcen)
 
         for i in 1:nIters
-            R_i = kmeans(convert(Matrix, ClusteringInputDF), NClusters)
+            R_i = kmeans(Matrix(ClusteringInputDF), NClusters)
 
             if R_i.totalcost < R.totalcost
                 R = R_i
@@ -229,7 +229,7 @@ function cluster(ClusterMethod, ClusteringInputDF, NClusters, nIters, v=false)
         end
 
     elseif ClusterMethod == "kmedoids"
-        DistMatrix = pairwise(Euclidean(), convert(Matrix, ClusteringInputDF), dims=2)
+        DistMatrix = pairwise(Euclidean(), Matrix(ClusteringInputDF), dims=2)
         R = kmedoids(DistMatrix, NClusters, init=:kmcen)
 
         for i in 1:nIters

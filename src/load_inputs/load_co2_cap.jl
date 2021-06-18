@@ -27,7 +27,7 @@ function load_co2_cap(setup::Dict, path::AbstractString, sep::AbstractString, in
 	first_col = findall(s -> s == Symbol("CO_2_Cap_Zone_1"), names(inputs_co2["dfCO2Cap"]))[1]
 	last_col = findall(s -> s == Symbol("CO_2_Cap_Zone_$cap"), names(inputs_co2["dfCO2Cap"]))[1]
 
-	inputs_co2["dfCO2CapZones"] = convert(Matrix{Float64}, inputs_co2["dfCO2Cap"][:,first_col:last_col])
+	inputs_co2["dfCO2CapZones"] = Matrix(inputs_co2["dfCO2Cap"][:,first_col:last_col])
 	inputs_co2["NCO2Cap"] = cap
 
 	# Emission limits
@@ -37,10 +37,10 @@ function load_co2_cap(setup::Dict, path::AbstractString, sep::AbstractString, in
 		last_col = findall(s -> s == Symbol("CO_2_Max_Mtons_$cap"), names(inputs_co2["dfCO2Cap"]))[1]
 		# note the default inputs is in million tons
 		if setup["ParameterScale"] ==1
-			inputs_co2["dfMaxCO2"] = convert(Matrix{Float64}, inputs_co2["dfCO2Cap"][:,first_col:last_col])*(1e6)/ModelScalingFactor
+			inputs_co2["dfMaxCO2"] = Matrix(inputs_co2["dfCO2Cap"][:,first_col:last_col])*(1e6)/ModelScalingFactor
 			# when scaled, the constraint unit is kton
 		else
-			inputs_co2["dfMaxCO2"] = convert(Matrix{Float64}, inputs_co2["dfCO2Cap"][:,first_col:last_col])*(1e6)
+			inputs_co2["dfMaxCO2"] = Matrix(inputs_co2["dfCO2Cap"][:,first_col:last_col])*(1e6)
 			# when not scaled, the constraint unit is ton
 		end
 
@@ -49,10 +49,10 @@ function load_co2_cap(setup::Dict, path::AbstractString, sep::AbstractString, in
 		first_col = findall(s -> s == Symbol("CO_2_Max_tons_MWh_1"), names(inputs_co2["dfCO2Cap"]))[1]
 		last_col = findall(s -> s == Symbol("CO_2_Max_tons_MWh_$cap"), names(inputs_co2["dfCO2Cap"]))[1]
 		if setup["ParameterScale"] ==1
-			inputs_co2["dfMaxCO2Rate"] = convert(Matrix{Float64}, inputs_co2["dfCO2Cap"][:,first_col:last_col])
+			inputs_co2["dfMaxCO2Rate"] = Matrix(inputs_co2["dfCO2Cap"][:,first_col:last_col])
 			# when scaled, the constraint unit is kton, thus the emission rate should be in kton/GWh = ton/MWh
 		else
-			inputs_co2["dfMaxCO2Rate"] = convert(Matrix{Float64}, inputs_co2["dfCO2Cap"][:,first_col:last_col])
+			inputs_co2["dfMaxCO2Rate"] = Matrix(inputs_co2["dfCO2Cap"][:,first_col:last_col])
 			# when not scaled, the constraint unit is ton/MWh
 		end
 
