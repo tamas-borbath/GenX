@@ -30,18 +30,18 @@ function write_power(path::AbstractString, sep::AbstractString, inputs::Dict, se
 		for i in 1:G
 			dfPower[!,:AnnualSum][i] = sum(value.(EP[:vP])[i,:]) * ModelScalingFactor
 		end
-		dfPower = hcat(dfPower, convert(DataFrame, (value.(EP[:vP]))* ModelScalingFactor))
+		dfPower = hcat(dfPower, convert_to_DataFrame((value.(EP[:vP]))* ModelScalingFactor))
 	else
 		for i in 1:G
 			dfPower[!,:AnnualSum][i] = sum(inputs["omega"].* (value.(EP[:vP])[i,:]))
 		end
-		dfPower = hcat(dfPower, convert(DataFrame, value.(EP[:vP])))
+		dfPower = hcat(dfPower, convert_to_DataFrame(value.(EP[:vP])))
 	end
 
 	auxNew_Names=[Symbol("Resource");Symbol("Zone");Symbol("AnnualSum");[Symbol("t$t") for t in 1:T]]
 	rename!(dfPower,auxNew_Names)
 
-	total = convert(DataFrame, ["Total" 0 sum(dfPower[!,:AnnualSum]) fill(0.0, (1,T))])
+	total = convert_to_DataFrame(["Total" 0 sum(dfPower[!,:AnnualSum]) fill(0.0, (1,T))])
 	for t in 1:T
 		total[!,t+3] .= sum(dfPower[!,Symbol("t$t")][1:G])
 	end

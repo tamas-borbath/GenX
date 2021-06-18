@@ -48,7 +48,7 @@ function write_energy_revenue(path::AbstractString, sep::AbstractString, inputs:
 		end
 		dfEnergyRevenue_ = hcat(dfEnergyRevenue_, dfEnergyRevenue_1)
 	end
-	dfEnergyRevenue = hcat(dfEnergyRevenue, convert(DataFrame, dfEnergyRevenue_'))
+	dfEnergyRevenue = hcat(dfEnergyRevenue, convert_to_DataFrame(dfEnergyRevenue_'))
 	for i in 1:G
 		dfEnergyRevenue[!,:AnnualSum][i] = sum(dfEnergyRevenue[i,6:T+5])
 	end
@@ -82,10 +82,10 @@ end
 			DataFrame([[names(dfPrice)]; collect.(eachrow(dfPrice))], [:column; Symbol.(axes(dfPrice, 1))])[2:T+1,dfPower[i,:][:Zone]+1] .*
 			inputs["omega"])
 		end
-		dfEnergyRevenue = hcat(dfEnergyRevenue, convert(DataFrame, dfEnergyRevenue_1'))
+		dfEnergyRevenue = hcat(dfEnergyRevenue, convert_to_DataFrame(dfEnergyRevenue_1'))
 	end
 
-	# dfEnergyRevenue = hcat(dfEnergyRevenue, convert(DataFrame, dfEnergyRevenue_'))
+	# dfEnergyRevenue = hcat(dfEnergyRevenue, convert_to_DataFrame(dfEnergyRevenue_'))
 	for i in 1:G
 		dfEnergyRevenue[!,:AnnualSum][i] = sum(dfEnergyRevenue[i,6:T+5])
 	end

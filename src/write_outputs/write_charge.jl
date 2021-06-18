@@ -42,10 +42,10 @@ function write_charge(path::AbstractString, sep::AbstractString, inputs::Dict, s
 		end
 		dfCharge[!,:AnnualSum][i] = sum(inputs["omega"].* charge[i,:])
 	end
-	dfCharge = hcat(dfCharge, convert(DataFrame, charge))
+	dfCharge = hcat(dfCharge, convert_to_DataFrame(charge))
 	auxNew_Names=[Symbol("Resource");Symbol("Zone");Symbol("AnnualSum");[Symbol("t$t") for t in 1:T]]
 	rename!(dfCharge,auxNew_Names)
-	total = convert(DataFrame, ["Total" 0 sum(dfCharge[!,:AnnualSum]) fill(0.0, (1,T))])
+	total = convert_to_DataFrame(["Total" 0 sum(dfCharge[!,:AnnualSum]) fill(0.0, (1,T))])
 	for t in 1:T
 		total[!,t+3] .= sum(dfCharge[!,Symbol("t$t")][union(inputs["STOR_ALL"],inputs["FLEX"])])
 	end

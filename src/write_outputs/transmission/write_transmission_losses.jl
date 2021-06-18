@@ -28,10 +28,10 @@ function write_transmission_losses(path::AbstractString, sep::AbstractString, in
 		end
 		dfTLosses[!,:Sum][i] = sum(tlosses[i,:])
 	end
-	dfTLosses = hcat(dfTLosses, convert(DataFrame, tlosses))
+	dfTLosses = hcat(dfTLosses, convert_to_DataFrame(tlosses))
 	auxNew_Names=[Symbol("Line");Symbol("Sum");[Symbol("t$t") for t in 1:T]]
 	rename!(dfTLosses,auxNew_Names)
-	total = convert(DataFrame, ["Total" sum(dfTLosses[!,:Sum]) fill(0.0, (1,T))])
+	total = convert_to_DataFrame(["Total" sum(dfTLosses[!,:Sum]) fill(0.0, (1,T))])
 	for t in 1:T
 		total[!,t+2] .= sum(dfTLosses[!,Symbol("t$t")][1:L])
 	end

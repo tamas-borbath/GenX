@@ -42,7 +42,7 @@ function write_charging_cost(path::AbstractString, sep::AbstractString, inputs::
 		end
 		dfChargingcost_ = hcat(dfChargingcost_, dfChargingcost_1)
 	end
-	dfChargingcost = hcat(dfChargingcost, convert(DataFrame, dfChargingcost_'))
+	dfChargingcost = hcat(dfChargingcost, convert_to_DataFrame(dfChargingcost_'))
  	for i in 1:G
  		dfChargingcost[!,:AnnualSum][i] = sum(dfChargingcost[i,6:T+5])
  	end
@@ -68,7 +68,7 @@ end
 			DataFrame([[names(dfPrice)]; collect.(eachrow(dfPrice))], [:column; Symbol.(axes(dfPrice, 1))])[2:T+1,dfPower[i,:][:Zone]+1] .*
 			inputs["omega"])
 		end
-		dfChargingcost = hcat(dfChargingcost, convert(DataFrame, dfChargingcost_1'))
+		dfChargingcost = hcat(dfChargingcost, convert_to_DataFrame(dfChargingcost_1'))
 	end
 
  	for i in 1:G

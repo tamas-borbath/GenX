@@ -63,16 +63,16 @@ function write_emissions(path::AbstractString, sep::AbstractString, inputs::Dict
 		end
 
 		if setup["ParameterScale"]==1
-			dfEmissions = hcat(dfEmissions, convert(DataFrame, value.(EP[:eEmissionsByZone])*ModelScalingFactor))
+			dfEmissions = hcat(dfEmissions, convert_to_DataFrame(value.(EP[:eEmissionsByZone])*ModelScalingFactor))
 		else
-			dfEmissions = hcat(dfEmissions, convert(DataFrame, value.(EP[:eEmissionsByZone])/ModelScalingFactor))
+			dfEmissions = hcat(dfEmissions, convert_to_DataFrame(value.(EP[:eEmissionsByZone])/ModelScalingFactor))
 		end
 
 
 		if setup["CO2Cap"]>=1
 			auxNew_Names=[Symbol("Zone");[Symbol("CO2_Price_$cap") for cap in 1:inputs["NCO2Cap"]];Symbol("AnnualSum");[Symbol("t$t") for t in 1:T]]
 			rename!(dfEmissions,auxNew_Names)
-			total = convert(DataFrame, ["Total" zeros(1,inputs["NCO2Cap"]) sum(dfEmissions[!,:AnnualSum]) fill(0.0, (1,T))])
+			total = convert_to_DataFrame(["Total" zeros(1,inputs["NCO2Cap"]) sum(dfEmissions[!,:AnnualSum]) fill(0.0, (1,T))])
 			for t in 1:T
 				total[!,t+inputs["NCO2Cap"]+2] .= sum(dfEmissions[!,Symbol("t$t")][1:Z])
 			end
@@ -81,7 +81,7 @@ function write_emissions(path::AbstractString, sep::AbstractString, inputs::Dict
 		else
 			auxNew_Names=[Symbol("Zone"); Symbol("AnnualSum"); [Symbol("t$t") for t in 1:T]]
 			rename!(dfEmissions,auxNew_Names)
-			total = convert(DataFrame, ["Total" sum(dfEmissions[!,:AnnualSum]) fill(0.0, (1,T))])
+			total = convert_to_DataFrame(["Total" sum(dfEmissions[!,:AnnualSum]) fill(0.0, (1,T))])
 			for t in 1:T
 				total[!,t+2] .= sum(dfEmissions[!,Symbol("t$t")][1:Z])
 			end
@@ -102,13 +102,13 @@ function write_emissions(path::AbstractString, sep::AbstractString, inputs::Dict
 			end
 		end
 		if setup["ParameterScale"]==1
-			dfEmissions = hcat(dfEmissions, convert(DataFrame, value.(EP[:eEmissionsByZone])*ModelScalingFactor))
+			dfEmissions = hcat(dfEmissions, convert_to_DataFrame(value.(EP[:eEmissionsByZone])*ModelScalingFactor))
 		else
-			dfEmissions = hcat(dfEmissions, convert(DataFrame, value.(EP[:eEmissionsByZone])/ModelScalingFactor))
+			dfEmissions = hcat(dfEmissions, convert_to_DataFrame(value.(EP[:eEmissionsByZone])/ModelScalingFactor))
 		end
 		auxNew_Names=[Symbol("Zone");Symbol("AnnualSum");[Symbol("t$t") for t in 1:T]]
 		rename!(dfEmissions,auxNew_Names)
-		total = convert(DataFrame, ["Total" sum(dfEmissions[!,:AnnualSum]) fill(0.0, (1,T))])
+		total = convert_to_DataFrame(["Total" sum(dfEmissions[!,:AnnualSum]) fill(0.0, (1,T))])
 		for t in 1:T
 			total[!,t+2] .= sum(dfEmissions[!,Symbol("t$t")][1:Z])
 		end

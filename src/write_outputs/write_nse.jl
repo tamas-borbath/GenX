@@ -39,7 +39,7 @@ function write_nse(path::AbstractString, sep::AbstractString, inputs::Dict, setu
 			end
 
 		end
-		dfTemp = hcat(dfTemp, convert(DataFrame, value.(EP[:vNSE])[:,:,z]))
+		dfTemp = hcat(dfTemp, convert_to_DataFrame(value.(EP[:vNSE])[:,:,z]))
 		if z == 1
 			dfNse = dfTemp
 		else
@@ -49,7 +49,7 @@ function write_nse(path::AbstractString, sep::AbstractString, inputs::Dict, setu
 
 	auxNew_Names=[Symbol("Segment");Symbol("Zone");Symbol("AnnualSum");[Symbol("t$t") for t in 1:T]]
 	rename!(dfNse,auxNew_Names)
-	total = convert(DataFrame, ["Total" 0 sum(dfNse[!,:AnnualSum]) fill(0.0, (1,T))])
+	total = convert_to_DataFrame(["Total" 0 sum(dfNse[!,:AnnualSum]) fill(0.0, (1,T))])
 	for t in 1:T
 		total[!,t+3] .= sum(dfNse[!,Symbol("t$t")][1:Z])
 	end

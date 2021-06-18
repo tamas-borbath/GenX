@@ -24,10 +24,10 @@ function write_transmission_flows(path::AbstractString, sep::AbstractString, inp
 	for i in 1:L
 		dfFlow[!,:Sum][i] = sum(value.(EP[:vFLOW])[i,:])
 	end
-	dfFlow = hcat(dfFlow, convert(DataFrame, value.(EP[:vFLOW])))
+	dfFlow = hcat(dfFlow, convert_to_DataFrame(value.(EP[:vFLOW])))
 	auxNew_Names=[Symbol("Line");Symbol("Sum");[Symbol("t$t") for t in 1:T]]
 	rename!(dfFlow,auxNew_Names)
-	total = convert(DataFrame, ["Total" sum(dfFlow[!,:Sum]) fill(0.0, (1,T))])
+	total = convert_to_DataFrame(["Total" sum(dfFlow[!,:Sum]) fill(0.0, (1,T))])
 	for t in 1:T
 		total[!,t+2] .= sum(dfFlow[!,Symbol("t$t")][1:L])
 	end

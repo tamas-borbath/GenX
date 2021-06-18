@@ -25,7 +25,7 @@ function write_commit(path::AbstractString, sep::AbstractString, inputs::Dict, s
 		commit[i,:] = value.(EP[:vCOMMIT])[i,:]
 	end
 	dfCommit = DataFrame(Resource = inputs["RESOURCES"], Zone = dfGen[!,:Zone])
-	dfCommit = hcat(dfCommit, convert(DataFrame, commit))
+	dfCommit = hcat(dfCommit, convert_to_DataFrame(commit))
 	auxNew_Names=[Symbol("Resource");Symbol("Zone");[Symbol("t$t") for t in 1:T]]
 	rename!(dfCommit,auxNew_Names)
 	CSV.write(string(path,sep,"commit.csv"), dftranspose(dfCommit, false), writeheader=false)

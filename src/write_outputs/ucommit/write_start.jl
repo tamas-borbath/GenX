@@ -28,10 +28,10 @@ function write_start(path::AbstractString, sep::AbstractString, inputs::Dict, se
 		end
 		dfStart[!,:Sum][i] = sum(start[i,:])
 	end
-	dfStart = hcat(dfStart, convert(DataFrame, start))
+	dfStart = hcat(dfStart, convert_to_DataFrame(start))
 	auxNew_Names=[Symbol("Resource");Symbol("Zone");Symbol("Sum");[Symbol("t$t") for t in 1:T]]
 	rename!(dfStart,auxNew_Names)
-	total = convert(DataFrame, ["Total" 0 sum(dfStart[!,:Sum]) fill(0.0, (1,T))])
+	total = convert_to_DataFrame(["Total" 0 sum(dfStart[!,:Sum]) fill(0.0, (1,T))])
 	for t in 1:T
 		total[!,t+3] .= sum(dfStart[:,Symbol("t$t")][1:G])
 	end
