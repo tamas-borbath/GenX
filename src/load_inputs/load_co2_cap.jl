@@ -21,7 +21,7 @@ Function for reading input parameters related to CO$_2$ emissions cap constraint
 """
 function load_co2_cap(setup::Dict, path::AbstractString, sep::AbstractString, inputs_co2::Dict)
 	# Definition of Cap requirements by zone (as Max Mtons)
-	inputs_co2["dfCO2Cap"] = CSV.read(string(path,sep,"CO2_cap.csv"), header=true)
+	inputs_co2["dfCO2Cap"] = CSV.read(string(path,sep,"CO2_cap.csv"), header=true, DataFrame)
 
 	cap = count(s -> startswith(String(s), "CO_2_Cap_Zone"), names(inputs_co2["dfCO2Cap"]))
 	first_col = findall(s -> s =="CO_2_Cap_Zone_1", names(inputs_co2["dfCO2Cap"]))[1]

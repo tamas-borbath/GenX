@@ -22,7 +22,7 @@ Function for reading input parameters related to mimimum energy share requiremen
 function load_energy_share_requirement(setup::Dict, path::AbstractString, sep::AbstractString, inputs_ESR::Dict)
 	# Definition of ESR requirements by zone (as % of load)
 	# e.g. any policy requiring a min share of qualifying resources (Renewable Portfolio Standards / Renewable Energy Obligations / Clean Energy Standards etc.)
-	inputs_ESR["dfESR"] = CSV.read(string(path,sep,"Energy_share_requirement.csv"), header=true)
+	inputs_ESR["dfESR"] = CSV.read(string(path,sep,"Energy_share_requirement.csv"), header=true, DataFrame)
 
 	# Ensure float format values:
 	ESR = count(s -> startswith(String(s), "ESR"), names(inputs_ESR["dfESR"]))

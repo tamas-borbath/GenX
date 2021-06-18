@@ -41,7 +41,7 @@ function mga(EP::Model, path::AbstractString, setup::Dict, inputs::Dict, outpath
 	    println("MGA Module")
 
 	    # Random objective function coefficients for the MGA formulation
-	    Obj_coefficients = CSV.read(string(path, "/Rand_mga_objective_coefficients.csv"), header=true)
+	    Obj_coefficients = CSV.read(string(path, "/Rand_mga_objective_coefficients.csv"), header=true, DataFrame)
 
 	    # Objective function value of the least cost problem
 	    Least_System_Cost = objective_value(EP)
